@@ -16,9 +16,9 @@ class CNN(nn.Module):
                                out_channels=n_filters, kernel_size=3)
 
         # convolution layers produce tensor of shape: n_filters*6*6
-        self.f1 = nn.Linear(in_features=n_filters*6*6, out_features=100)
+        self.fc1 = nn.Linear(in_features=n_filters*6*6, out_features=100)
         # 43 classes
-        self.f2 = nn.Linear(in_features=100, out_features=43)
+        self.fc2 = nn.Linear(in_features=100, out_features=43)
 
         self.dropout = nn.Dropout(p=self.p)
 
@@ -48,12 +48,12 @@ class CNN(nn.Module):
 
         if self.p > 0:
             x = self.dropout(x)
-        x = self.f1(x)
+        x = self.fc1(x)
         x = F.relu(x)
 
         if self.p > 0:
             x = self.dropout(x)
-        x = self.f2(x)
+        x = self.fc2(x)
 
         # model returns logits (no softmax at the end) so CrossEntropyLoss should be used
         return x
