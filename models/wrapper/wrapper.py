@@ -35,7 +35,9 @@ class ModelWrapper():
 
     def predict(self, x):
         self.model.eval()
-        return self.model(x)
+        x = x.to(self.device)
+        y_hat = self.model(x)
+        return y_hat.cpu().detach()
 
     def set_dataloaders(self, train_loader, val_loader) -> None:
         self.train_loader = train_loader
