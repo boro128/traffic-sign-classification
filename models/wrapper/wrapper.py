@@ -65,7 +65,7 @@ class ModelWrapper():
 
         self.optimizer.zero_grad()
 
-        y_hat = self.model(y)
+        y_hat = self.model(x)
         loss = self.criterion(y_hat, y)
         loss.backward()
         self.optimizer.step()
@@ -76,7 +76,7 @@ class ModelWrapper():
         x = x.to(self.device)
         y = y.to(self.device)
 
-        y_hat = self.model(y)
+        y_hat = self.model(x)
         loss = self.criterion(y_hat, y)
 
         return loss.item()
