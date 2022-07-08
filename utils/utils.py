@@ -2,6 +2,11 @@ import torch
 import torchvision
 
 from utils.transforms import train_transform, eval_transform
+from utils.consts import CLASSES
+
+
+def label_to_class(label):
+    return CLASSES[label]
 
 
 def get_targets(dataset):
