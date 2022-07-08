@@ -2,6 +2,9 @@ import torch
 import random
 import numpy as np
 
+from torch.utils.tensorboard import SummaryWriter
+from datetime import datetime
+
 
 class ModelWrapper():
 
@@ -16,14 +19,18 @@ class ModelWrapper():
         self.train_loader = None
         self.val_loader = None
 
+        self.writer = None
+
         self.losses = []
         self.val_losses = []
         self.total_epochs = 0
 
-    def train(self, epochs_num, seed=42) -> None:
+    def train(self, epochs_to_train, seed=42) -> None:
         self.set_seed(seed)
 
-        for epoch in range(epochs_num):
+        start_epoch = self.total_epochs
+        final_epoch = self.total_epochs + epochs_to_train
+        for epoch in range(start_epoch, final_epoch):
             train_loss = self._mini_batch()
             self.losses.append(train_loss)
 
@@ -34,7 +41,21 @@ class ModelWrapper():
             print(
                 f"epoch: {epoch}    loss: {train_loss}   val_loss: {val_loss}")
 
+            if self.writer is not None:
+                self.writer.add_scalars(
+                    main_tag='loss',
+                    global_step=epoch,
+                    tag_scalar_dict={
+                        'training': train_loss,
+                        'validation': val_loss
+                    }
+                )
+                self.writer.flush()
+
             self.total_epochs += 1
+
+        if self.writer is not None:
+            self.writer.close()
 
     def predict(self, x):
         self.model.eval()
@@ -65,6 +86,14 @@ class ModelWrapper():
     def set_dataloaders(self, train_loader, val_loader) -> None:
         self.train_loader = train_loader
         self.val_loader = val_loader
+
+    def set_writer(self, filename, subdirectory=None) -> None:
+        timestamp = datetime.now().strftime(r'%Y%m%d%H%M%S')
+        if subdirectory is not None:
+            parent_dir = f'runs/{subdirectory}'
+        else:
+            parent_dir = 'runs'
+        self.writer = SummaryWriter(f'{parent_dir}/{filename}_{timestamp}')
 
     def set_seed(self, seed=42):
         random.seed(seed)
