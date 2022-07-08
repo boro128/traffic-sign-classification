@@ -113,11 +113,11 @@ class ModelWrapper():
 
         plt.figure(figsize=(8, 6))
 
-        plt.plot(self.losses,
-                 range(self.total_epochs),
+        plt.plot(range(self.total_epochs),
+                 self.losses,
                  label="Training loss")
-        plt.plot(self.val_losses,
-                 range(self.total_epochs),
+        plt.plot(range(self.total_epochs),
+                 self.val_losses,
                  label="Validation loss")
 
         plt.legend()
