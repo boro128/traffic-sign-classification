@@ -4,6 +4,7 @@ CLASSES = [
     "Speed limit (50km/h)",
     "Speed limit (60km/h)",
     "Speed limit (70km/h)",
+    "Speed limit (80km/h)",
     "End of speed limit",
     "Speed limit (100km/h)",
     "Speed limit (120km/h)",
