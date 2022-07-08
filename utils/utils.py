@@ -35,7 +35,7 @@ def get_loaders(batch_size=128):
 
     val_dataset, test_dataset = torch.utils.data.random_split(
         eval_dataset,
-        [len(eval_dataset)//2, len(eval_dataset)//2], generator=)generator
+        [len(eval_dataset)//2, len(eval_dataset)//2], generator=generator)
 
     targets = get_targets(train_dataset)
     _, counts = targets.unique(return_counts=True)
