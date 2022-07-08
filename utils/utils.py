@@ -22,6 +22,11 @@ def get_train_dataset():
         root='./data', split='train', download=True, transform=train_transform)
 
 
+def get_train_dataset_no_transforms():
+    return torchvision.datasets.GTSRB(
+        root='./data', split='train', download=True)
+
+
 def get_eval_dataset():
     return torchvision.datasets.GTSRB(
         root='./data', split='test', download=True, transform=eval_transform)

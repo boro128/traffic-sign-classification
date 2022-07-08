@@ -1,6 +1,8 @@
 import torch
 import random
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from torch.utils.tensorboard import SummaryWriter
 from datetime import datetime
@@ -105,6 +107,27 @@ class ModelWrapper():
             self.train_loader.sampler.generator.manual_seed(seed)
         except AttributeError:
             pass
+
+    def plot_loss(self, path="images/loss.png", show=False):
+        sns.set()
+
+        plt.figure(figsize=(8, 6))
+
+        plt.plot(self.losses,
+                 range(self.total_epochs),
+                 label="Training loss")
+        plt.plot(self.val_losses,
+                 range(self.total_epochs),
+                 label="Validation loss")
+
+        plt.legend()
+        plt.title("Loss", fontsize=18)
+        plt.xlabel("Epoch", fontsize=14)
+        plt.ylabel("Loss value", fontsize=14)
+        plt.savefig(path)
+
+        if show:
+            plt.show()
 
     def _mini_batch(self, validation=False):
         if validation:
