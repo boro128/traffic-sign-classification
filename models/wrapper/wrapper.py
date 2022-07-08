@@ -83,7 +83,8 @@ class ModelWrapper():
         self.losses = checkpoint['losses']
         self.val_losses = checkpoint['val_losses']
         self.model.load_state_dict(checkpoint['model_state_dict'])
-        self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        if self.optimizer is not None:
+            self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
 
     def set_dataloaders(self, train_loader, val_loader) -> None:
         self.train_loader = train_loader
