@@ -15,7 +15,7 @@ class CNN(nn.Module):
         self.conv2 = nn.Conv2d(in_channels=n_filters,
                                out_channels=n_filters, kernel_size=3)
 
-        # convolution layers produce tensor of shape: n_filters*6*6
+        # convolutional layers produce tensor of shape: n_filters*6*6
         self.fc1 = nn.Linear(in_features=n_filters*6*6, out_features=100)
         # 43 classes
         self.fc2 = nn.Linear(in_features=100, out_features=43)
