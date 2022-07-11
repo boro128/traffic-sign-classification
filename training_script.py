@@ -26,7 +26,7 @@ def main():
                         default='default_writer', type=str)
     parser.add_argument('--writer-subdirectory', type=str)
     parser.add_argument('--produce-plots', action='store_true')
-    parser.add_argument('--save-dir', type=str)
+    parser.add_argument('--save-path', type=str)
 
     args = parser.parse_args()
 
@@ -37,7 +37,7 @@ def main():
     writer_filename = args.writer_filename
     writer_subdirectory = args.writer_subdirectory
     produce_plots = args.produce_plots
-    save_dir = args.save_dir
+    save_path = args.save_path
 
     if produce_plots:
         train_dataset = get_train_dataset()
@@ -64,8 +64,8 @@ def main():
 
     mw.train(epochs_num)
 
-    if save_dir is not None:
-        mw.save(save_dir)
+    if save_path is not None:
+        mw.save(save_path)
 
     #### evaluation ####
 
