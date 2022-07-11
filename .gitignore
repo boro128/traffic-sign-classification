@@ -133,3 +133,6 @@ data/
 
 # tensorboard files
 runs/
+
+# pth
+*.pth
