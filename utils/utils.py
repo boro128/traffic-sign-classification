@@ -22,9 +22,11 @@ def get_targets(dataset):
     return targets
 
 
-def get_train_dataset():
+def get_train_dataset(transform=None):
+    if transform is None:
+        transform = train_transform
     return torchvision.datasets.GTSRB(
-        root='./data', split='train', download=True, transform=train_transform)
+        root='./data', split='train', download=True, transform=transform)
 
 
 def get_train_dataset_no_transforms():
@@ -32,20 +34,26 @@ def get_train_dataset_no_transforms():
         root='./data', split='train', download=True)
 
 
-def get_eval_dataset():
-    return torchvision.datasets.GTSRB(
-        root='./data', split='test', download=True, transform=eval_transform)
+def get_eval_datasets(transform=None):
+    if transform is None:
+        transform = eval_transform
+    generator = torch.Generator().manual_seed(42)
+
+    eval_dataset = torchvision.datasets.GTSRB(
+        root='./data', split='test', download=True, transform=transform)
+
+    val_dataset, test_dataset = torch.utils.data.random_split(
+        eval_dataset,
+        [len(eval_dataset)//2, len(eval_dataset)//2], generator=generator)
+
+    return val_dataset, test_dataset
 
 
 def get_loaders(batch_size=128):
     generator = torch.Generator().manual_seed(42)
 
     train_dataset = get_train_dataset()
-    eval_dataset = get_eval_dataset()
-
-    val_dataset, test_dataset = torch.utils.data.random_split(
-        eval_dataset,
-        [len(eval_dataset)//2, len(eval_dataset)//2], generator=generator)
+    val_dataset, test_dataset = get_eval_datasets()
 
     targets = get_targets(train_dataset)
     _, counts = targets.unique(return_counts=True)
