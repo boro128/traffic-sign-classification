@@ -4,6 +4,8 @@ This repository contains PyTorch code that trains and evaluates a convolutional 
 
 ### Running the scripts
 
+If you are using conda, you can use `environment.yml` to recreate the environment that was used to develop code present in this repository.
+
 Example usage of `training_script.py`: `python3 training_script.py --produce-plots --save-path my_model.pth`
 
 Example usage of `prediction_script.py`: `python3 prediction_script.py --model-path $PATH_TO_MODEL --imgs-dir $DIR_WITH_IMGS` where `$PATH_TO_MODEL` is a path to the model produced using `training_script.py` and `$DIR_WITH_IMGS` is a directory that contains images that you want to classify (you can find sample images in the directory `images/sample_signs`).
